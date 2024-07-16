@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract BlockchainGamification is ERC20, Ownable {
+    // Events
+    event GameAction(address indexed player, uint256 tokensEarned);
+
+    // Constructor
+    constructor(string memory name, string memory symbol) ERC20(name, symbol) {}
+
+    // Function to simulate game action and reward tokens
+    function performGameAction() external {
+        uint256 tokensEarned = 100; // Example: Reward 100 tokens for a game action
+        _mint(msg.sender, tokensEarned);
+        emit GameAction(msg.sender, tokensEarned);
+    }
+
+    // Function to transfer tokens to another player
+    function transferTokens(address recipient, uint256 amount) external {
+        require(amount <= balanceOf(msg.sender), "Insufficient balance");
+        _transfer(msg.sender, recipient, amount);
+    }
+}
